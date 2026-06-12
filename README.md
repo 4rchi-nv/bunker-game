@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Бункер — онлайн-игра на выживание
 
-## Getting Started
+Next.js приложение для дискуссионной игры «Бункер» с Firebase realtime.
 
-First, run the development server:
+## Быстрый старт
 
 ```bash
+npm install
+cp .env.example .env.local
+# заполните Firebase переменные
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Firebase
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Создайте проект на [Firebase Console](https://console.firebase.google.com)
+2. Включите **Authentication → Anonymous**
+3. Создайте **Firestore Database**
+4. Скопируйте конфиг веб-приложения в `.env.local`
+5. Задеплойте правила: `firebase deploy --only firestore:rules`
 
-## Learn More
+## Деплой
 
-To learn more about Next.js, take a look at the following resources:
+**Vercel:** подключите репозиторий, добавьте env variables, deploy.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Firebase Hosting:** `npm run build && firebase deploy`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Структура
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `/` — главная
+- `/create` — создание комнаты
+- `/join` — подключение по коду
+- `/room/[code]/host` — панель хоста
+- `/room/[code]/player` — экран игрока
+- `/rules` — правила
+- `/ai-template` — промпт для нейросети

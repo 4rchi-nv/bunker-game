@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // MVP: authenticated users can read/write rooms
+    // For production, tighten rules (host-only writes, player-scoped secrets)
+    match /rooms/{roomId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
