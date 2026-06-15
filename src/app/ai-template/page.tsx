@@ -45,7 +45,7 @@ export default function AiTemplatePage() {
               <Input
                 className="mt-1 w-32"
                 type="number"
-                min={5}
+                min={2}
                 max={16}
                 value={playerCount}
                 onChange={(e) => setPlayerCount(+e.target.value)}

@@ -207,8 +207,8 @@ export interface Room {
 }
 
 export const DEFAULT_ROOM_SETTINGS: RoomSettings = {
-  maxPlayers: 8,
-  bunkerSlots: 4,
+  maxPlayers: 2,
+  bunkerSlots: 1,
   hostPlays: true,
   discussionMinutes: 5,
   eliminationsPerRound: 1,
@@ -220,11 +220,15 @@ export const DEFAULT_ROOM_SETTINGS: RoomSettings = {
 
 export function getDefaultBunkerSlots(playerCount: number): number {
   const map: Record<number, number> = {
+    2: 1, 3: 1, 4: 2,
     5: 2, 6: 3, 7: 3, 8: 4, 9: 4, 10: 5,
     11: 5, 12: 6, 13: 6, 14: 7, 15: 7, 16: 8,
   };
   if (map[playerCount]) return map[playerCount];
-  return Math.max(2, Math.floor(playerCount / 2));
+  return Math.min(
+    playerCount - 1,
+    Math.max(1, Math.floor(playerCount / 2))
+  );
 }
 
 export function createEmptyGameSession(): GameSession {

@@ -1,6 +1,7 @@
 import type { Scenario } from "@/types/scenario";
 import type { Room, RoomSettings } from "@/types/game";
 import { FERTILITY_VALUES } from "@/types/scenario";
+import { MIN_PLAYERS } from "@/lib/game/limits";
 
 export interface ValidationResult {
   valid: boolean;
@@ -12,8 +13,10 @@ export function validateRoomSettings(settings: RoomSettings): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
 
-  if (settings.maxPlayers < 5) {
-    warnings.push("Рекомендуется минимум 5 игроков");
+  if (settings.maxPlayers < MIN_PLAYERS) {
+    errors.push(`Минимум ${MIN_PLAYERS} игрока в комнате`);
+  } else if (settings.maxPlayers < 5) {
+    warnings.push("Режим тестирования: рекомендуется 5+ игроков");
   }
   if (settings.bunkerSlots >= settings.maxPlayers) {
     errors.push("Мест в бункере должно быть меньше, чем игроков");
@@ -122,12 +125,12 @@ export function canStartGame(room: Room): ValidationResult {
   const players = Object.values(room.players).filter((p) => !p.isEliminated);
   const activeCount = players.length;
 
-  const minPlayers = room.settings.hostPlays
-    ? Math.max(5, room.settings.bunkerSlots + 1)
-    : Math.max(5, room.settings.bunkerSlots + 2);
-
-  if (activeCount < minPlayers) {
-    errors.push(`Недостаточно игроков: ${activeCount}. Нужно минимум ${minPlayers}`);
+  if (activeCount < MIN_PLAYERS) {
+    errors.push(`Недостаточно игроков: ${activeCount}. Минимум ${MIN_PLAYERS}`);
+  } else if (activeCount <= room.settings.bunkerSlots) {
+    errors.push(
+      `Игроков (${activeCount}) должно быть больше, чем мест в бункере (${room.settings.bunkerSlots})`
+    );
   }
 
   if (!room.scenarioImported) {

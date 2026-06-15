@@ -100,7 +100,7 @@ export default function CreatePage() {
               <Input
                 className="mt-1"
                 type="number"
-                min={5}
+                min={2}
                 max={16}
                 value={settings.maxPlayers}
                 onChange={(e) => updateMaxPlayers(+e.target.value)}
