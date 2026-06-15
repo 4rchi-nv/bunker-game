@@ -125,13 +125,13 @@ export function canStartGame(room: Room): ValidationResult {
   const players = Object.values(room.players).filter((p) => !p.isEliminated);
   const activeCount = players.length;
 
-  if (activeCount < MIN_PLAYERS) {
-    errors.push(`Недостаточно игроков: ${activeCount}. Минимум ${MIN_PLAYERS}`);
-  } else if (activeCount <= room.settings.bunkerSlots) {
-    errors.push(
-      `Игроков (${activeCount}) должно быть больше, чем мест в бункере (${room.settings.bunkerSlots})`
-    );
-  }
+  // if (activeCount < MIN_PLAYERS) {
+  //   errors.push(`Недостаточно игроков: ${activeCount}. Минимум ${MIN_PLAYERS}`);
+  // } else if (activeCount <= room.settings.bunkerSlots) {
+  //   errors.push(
+  //     `Игроков (${activeCount}) должно быть больше, чем мест в бункере (${room.settings.bunkerSlots})`
+  //   );
+  // }
 
   if (!room.scenarioImported) {
     errors.push("Сценарий не импортирован");
